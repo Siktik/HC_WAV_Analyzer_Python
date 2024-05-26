@@ -13,7 +13,7 @@ def perform_fft(data, block_size, shift_size, samplerate):
 
     num_blocks = (len(data) - block_size) // shift_size + 1
     frequencies = np.fft.rfftfreq(block_size, d=1/samplerate)
-    spectrogram = np.zeros((num_blocks, len(frequencies)))
+    #spectrogram = np.zeros((num_blocks, len(frequencies)))
 
     main_frequencies = []
     main_amplitudes = []
@@ -25,7 +25,7 @@ def perform_fft(data, block_size, shift_size, samplerate):
         block = data[start:end]
         windowed_block = block * np.hanning(block_size)
         spectrum = np.abs(np.fft.rfft(windowed_block))
-        spectrogram[i, :] = spectrum
+        #spectrogram[i, :] = spectrum
 
         # Find main frequency and amplitude
         main_index = np.argmax(spectrum)
@@ -36,7 +36,7 @@ def perform_fft(data, block_size, shift_size, samplerate):
     print(tracemalloc.get_traced_memory())
     print("second value beeing peak memory usage in bytes")
     tracemalloc.stop()
-    return frequencies, spectrogram, main_frequencies, main_amplitudes
+    return frequencies, main_frequencies, main_amplitudes
 
 def plot_spectrogram(frequencies, spectrogram, samplerate, shift_size):
     plt.figure(figsize=(12, 6))
@@ -56,8 +56,8 @@ def main(file_path, block_size, shift_size):
     data, samplerate = read_wav(file_path)
     if len(data.shape) == 2:  # Check if stereo and convert to mono
         data = data.mean(axis=1)
-    frequencies, spectrogram, main_frequencies, main_amplitudes = perform_fft(data, block_size, shift_size, samplerate)
-    plot_spectrogram(frequencies, spectrogram, samplerate, shift_size)
+    frequencies,  main_frequencies, main_amplitudes = perform_fft(data, block_size, shift_size, samplerate)
+    #plot_spectrogram(frequencies, spectrogram, samplerate, shift_size)
 
 
     #print("Angabe der Hauptfrequenzen und deren Amplitude:")
