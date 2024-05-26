@@ -9,7 +9,7 @@ def read_wav(file_path):
     return data, samplerate
 
 def perform_fft(data, block_size, shift_size, samplerate):
-    #tracemalloc.start()
+    tracemalloc.start()
 
     num_blocks = (len(data) - block_size) // shift_size + 1
     frequencies = np.fft.rfftfreq(block_size, d=1/samplerate)
@@ -33,8 +33,9 @@ def perform_fft(data, block_size, shift_size, samplerate):
         main_amplitude = spectrum[main_index]
         main_frequencies.append(main_frequency)
         main_amplitudes.append(main_amplitude)
-    #print(tracemalloc.get_traced_memory())
-    #tracemalloc.stop()
+    print(tracemalloc.get_traced_memory())
+    print("second value beeing peak memory usage in bytes")
+    tracemalloc.stop()
     return frequencies, spectrogram, main_frequencies, main_amplitudes
 
 def plot_spectrogram(frequencies, spectrogram, samplerate, shift_size):
@@ -59,9 +60,9 @@ def main(file_path, block_size, shift_size):
     plot_spectrogram(frequencies, spectrogram, samplerate, shift_size)
 
 
-    print("Angabe der Hauptfrequenzen und deren Amplitude:")
-    for i, (freq, amp) in enumerate(zip(main_frequencies, main_amplitudes)):
-        print(f"Block {i+1}: Hauptfrequenz = {freq:.2f} Hz, Amplitude = {amp:.2f}")
+    #print("Angabe der Hauptfrequenzen und deren Amplitude:")
+    #for i, (freq, amp) in enumerate(zip(main_frequencies, main_amplitudes)):
+    #   print(f"Block {i+1}: Hauptfrequenz = {freq:.2f} Hz, Amplitude = {amp:.2f}")
 
 # Example usage
 file_path = 'nicht_zu_laut_abspielen.wav'
