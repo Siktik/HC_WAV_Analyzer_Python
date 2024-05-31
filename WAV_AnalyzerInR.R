@@ -1,4 +1,4 @@
-
+#install(profmem)
 library(profmem)
 # Funktion zur Durchführung der Fourieranalyse einer WAV-Datei mit variabler Blockgröße und Shifting
 analyze_wav <- function(file_path, block_size = 1024, shift_factor = 4) {
